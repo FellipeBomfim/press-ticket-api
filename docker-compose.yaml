@@ -1,5 +1,6 @@
 services:
-  cache:
+  redis:
+    container_name: press-ticket-redis
     image: redis:latest
     restart: always
     ports:
@@ -11,7 +12,8 @@ services:
     networks:
       - app_network
 
-  db_postgres:
+  postgres:
+    container_name: press-ticket-postgres
     image: postgres
     environment:
       - POSTGRES_PASSWORD=${DB_PASS}
@@ -27,7 +29,8 @@ services:
       timeout: 3s
       retries: 3
 
-  db_migrate:
+  api:
+    container_name: press-ticket-api
     build:
       dockerfile: ./Dockerfile.sqlsetup
     environment:
@@ -40,7 +43,7 @@ services:
     networks:
       - app_network
     depends_on:
-      db_postgres:
+      postgres:
         condition: service_healthy
 
 networks:

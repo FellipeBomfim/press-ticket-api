@@ -3,4 +3,3 @@ WORKDIR /app
 COPY . .
 RUN npm install
 RUN npm run build
-ENTRYPOINT [ "npm", "run", "db:migrate" ,"&&", "npm", "run", "db:seed" ]
